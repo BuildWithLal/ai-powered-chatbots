@@ -25,7 +25,7 @@ git clone git@github.com:BuildWithLal/ai-powered-chatbots.git
 cd ai-powered-chatbot
 ```
 
-To run **DineBot** (or any other bot), navigate to the respective bot's directory:
+To run `DineBot` (or any other bot), navigate to the respective bot's directory:
 
 ```
 cd DineBot-AI-Powered-Restaurant-Assistant
