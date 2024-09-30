@@ -18,14 +18,13 @@ This repository features multiple demo chatbots, each designed to handle a speci
 - Chainlit
 - OpenAI API
 
-#### **Installation**
-1. Clone this repository:
-   ```
-   git clone git@github.com:BuildWithLal/ai-powered-chatbots.git
-   cd ai-powered-chatbot
-   ```
-
 #### **Running a Chatbot**
+
+```
+git clone git@github.com:BuildWithLal/ai-powered-chatbots.git
+cd ai-powered-chatbot
+```
+
 To run **DineBot** (or any other bot), navigate to the respective bot's directory:
 
 ```
