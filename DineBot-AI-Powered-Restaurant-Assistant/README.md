@@ -2,7 +2,7 @@
 
 DineBot is a sample chatbot built using Chainlit and OpenAI that simulates a restaurant assistant capable of helping users with menu browsing, item pricing, and placing orders. The chatbot provides a seamless and conversational interface to explore restaurant offerings and choose between cash or delivery options for their order.
 
-##### Key Features:
+#### Key Features:
 * Menu Browsing: Users can ask for available dishes, categories, and item details.
 * Price Lookup: Quick and easy access to pricing for specific menu items.
 * Order Assistance: Place an order for delivery or cash payment directly via the chatbot.
@@ -15,12 +15,12 @@ DineBot is a sample chatbot built using Chainlit and OpenAI that simulates a res
 * It will confirm order mode whether its a Delivery or Self-Pick order and COD or Pay-via-Card.
 * It will ask for Delivery address also in case of COD.
 
-#### Tech Stack
+### Tech Stack
 
 * Chainlit
 * OpenAI
 
-#### Run Application
+### Run Application
 ```
 python -m venv .venv
 ```

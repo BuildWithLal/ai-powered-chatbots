@@ -1,4 +1,4 @@
-#### Restaurant Chatbot using Chainlit and OpenAI
+### Restaurant Chatbot using Chainlit and OpenAI
 
 * This repo includes basic demo of Restaurant Chatbot using Chainlit and OpenAI.
 * It covers interacting with OpenAI `GPT-3.5` model using OpenAI API.
@@ -7,12 +7,12 @@
 * It will confirm order mode whether its a Delivery or Self-Pick order and COD or Pay-via-Card.
 * It will ask for Delivery address also in case of COD.
 
-#### Tech Stack
+### Tech Stack
 
 * Chainlit
 * OpenAI
 
-#### Run Application
+### Run Application
 ```
 pip install -r requirements.txt
 ```
