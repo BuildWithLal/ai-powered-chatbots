@@ -1,6 +1,5 @@
 ### **AI Powered Chatbots: A Collection of AI-Powered Chatbots**
 
-#### **Overview**
 This repository features multiple demo chatbots, each designed to handle a specific domain or task. These bots leverage natural language understanding and conversational AI to provide automated solutions that mimic human interaction.
 
 #### **Bots Included**
