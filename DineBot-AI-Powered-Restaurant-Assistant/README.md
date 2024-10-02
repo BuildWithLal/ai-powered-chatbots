@@ -4,7 +4,8 @@ DineBot is a sample chatbot built using Chainlit and OpenAI that simulates a res
 
 <br/>
 
-![untitled2-ezgif com-video-to-gif-converter (1)](https://github.com/user-attachments/assets/80b068ce-73b1-471f-afbe-16721a65bd0f)
+![untitled-ezgif com-video-to-gif-converter (1)](https://github.com/user-attachments/assets/5a81a9a1-84a7-4a36-9a47-67afe3e4c486)
+
 
 
 <br/>
