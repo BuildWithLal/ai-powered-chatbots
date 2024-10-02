@@ -8,8 +8,6 @@ def on_chat_start():
     print("A new chat session has started!")
 
 
-import chainlit as cl
-
 @cl.set_starters
 async def set_starters():
     return [
@@ -64,11 +62,7 @@ def oauth_callback(
 
 @cl.on_message
 async def main(message: cl.Message):
-    response = take_order(message.content)
-
-    # Send a response back to the user
-    await cl.Message(content=response).send()
-
+    await take_order(message)
 
 @cl.on_chat_end
 def on_chat_end():
