@@ -15,12 +15,14 @@ DineBot is a sample chatbot built using Chainlit and OpenAI that simulates a res
 * It will confirm order mode whether its a Delivery or Self-Pick order and COD or Pay-via-Card.
 * It will ask for Delivery address also in case of COD.
 
+
 ### Tech Stack
 
 * Chainlit
 * OpenAI
 
-### Run Application
+
+### Run Chatbot
 ```
 python -m venv .venv
 ```
