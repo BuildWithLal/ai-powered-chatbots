@@ -30,7 +30,7 @@ auto_tag_thread = true
 
 # Authorize users to spontaneously upload files with messages
 [features.spontaneous_file_upload]
-    enabled = true
+    enabled = false
     accept = ["*/*"]
     max_files = 20
     max_size_mb = 500
@@ -57,7 +57,7 @@ name = "Dine Bot"
 description = "DineBot is a sample chatbot built using Chainlit and OpenAI that simulates a restaurant assistant capable of helping users with menu browsing, item pricing, and placing orders. The chatbot provides a seamless and conversational interface to explore restaurant offerings and choose between cash or delivery options for their order."
 
 # Large size content are by default collapsed for a cleaner ui
-default_collapse_content = false
+default_collapse_content = true
 
 # Hide the chain of thought details from the user in the UI.
 hide_cot = false
@@ -67,7 +67,7 @@ github = "https://github.com/BuildWithLal/chatbot-using-chainlit-openai"
 
 # Specify a CSS file that can be used to customize the user interface.
 # The CSS file can be served from the public directory or via an external link.
-# custom_css = "/public/test.css"
+custom_css = "/public/css/dinebot.css"
 
 # Specify a Javascript file that can be used to customize the user interface.
 # The Javascript file can be served from the public directory.
