@@ -32,19 +32,7 @@ cd DineBot-AI-Powered-Restaurant-Assistant
 ```
 
 ```
-python -m venv .venv
-```
-
-```
-source .venv/bin/activate
-```
-
-```
-pip install -r requirements.txt
-```
-
-```
-chainlit run app.py -w
+docker compose up
 ```
 
 visit http://localhost:8000 and keep botting...!
