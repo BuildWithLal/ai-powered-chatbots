@@ -1,0 +1,22 @@
+[
+    {
+        "label": "Din Tai Fung",
+        "message": "Known for its meticulous and delicious dumplings, Din Tai Fung offers a variety of Taiwanese dishes.",
+        "icon": "/public/din-tai-fung.png"
+    },
+    {
+        "label": "Narisawa",
+        "message": "Michelin-starred Narisawa fuses French techniques with traditional Japanese ingredients, focusing on seasonality and environmental sustainability.",
+        "icon": "/public/narisawa.jpg"
+    },
+    {
+        "label": "Gaggan Anand",
+        "message": "Gaggan Anand is renowned for his innovative twist on traditional Indian cuisine, often presented in a tasting menu format.",
+        "icon": "/public/gaggan-anand.png"
+    },
+    {
+        "label": "Song Fang Zhai",
+        "message": "A hidden gem known for authentic Chinese cuisine, particularly the Beijing specialties.",
+        "icon": "/public/song-fang-zhai.jpg"
+    }
+]
