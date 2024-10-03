@@ -26,8 +26,9 @@ DineBot is a sample chatbot built using Chainlit and OpenAI that simulates a res
 
 ### Tech Stack
 
+* Python 3.11
 * Chainlit
-* OpenAI
+* OpenAI API
 * Docker
 
 

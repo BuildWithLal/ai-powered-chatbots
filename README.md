@@ -14,9 +14,10 @@ This repository features multiple demo chatbots, each designed to handle a speci
   
 
 #### **Requirements**
-- Python 3.10+
+- Python 3.11
 - Chainlit
 - OpenAI API
+- Docker
 
 #### **Running a Chatbot**
 
