@@ -36,4 +36,9 @@ cd DineBot-AI-Powered-Restaurant-Assistant
 docker compose up
 ```
 
+```
+user: admin
+password: admin
+```
+
 visit http://localhost:8000 and keep botting...!
