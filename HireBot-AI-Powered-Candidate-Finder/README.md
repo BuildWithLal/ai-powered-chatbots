@@ -1,4 +1,4 @@
-### HireBot: AI-Powered Resume Assistant
+## HireBot: AI-Powered Resume Assistant
 
 HireBot is a sample chatbot built using Chainlit, LangChain, Pinecone, OpenAI and Embeddings that helps recruiters and tech lead to query resumes based on the uploaded resumes.
 
@@ -9,7 +9,7 @@ HireBot is a sample chatbot built using Chainlit, LangChain, Pinecone, OpenAI an
 
 <br/>
 
-#### Key Features:
+### Key Features:
 
 * Upload Resumes: You can upload up to 5 PDF resumes in one chat.
 * Ask Questions: Ask any questions related to the uploaded resumes to help you find the right candidate for a job.
