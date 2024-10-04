@@ -10,14 +10,18 @@ HireBot is a sample chatbot built using Chainlit, LangChain, Pinecone, OpenAI an
 <br/>
 
 #### Key Features:
-* Upload PDF Resumes: User can upload up to 5 resumes in a single chat.
-* Ask Questions: User can ask questions based on uploaded resumes to find the best candidate for a job.
-* HireBot demonstrates how Chainlit, LangChain, Pinecone, OpenAI and Embeddings  can be leveraged to create conversational applications for the recruiters and tech leads.
 
-* It covers interacting with OpenAI `GPT-4o-mini` model using OpenAI API.
-* The resumes are uploaded, split and chunked using LangChain, created embeddings and passed to OpenAI for contextual queries.
-* The ChatBot will answer any query based on the uploaded resumes to find out a skill, a candidate, experience levels or a best fit based on job
-* Support Google and GitHub Login
+* Upload Resumes: You can upload up to 5 PDF resumes in one chat.
+* Ask Questions: Ask any questions related to the uploaded resumes to help you find the right candidate for a job.
+* Supports login with Google and GitHub.
+
+HireBot shows how to use tools like Chainlit, LangChain, Pinecone, OpenAI, and Embeddings to build chat applications for recruiters and hiring managers.
+
+It demonstrates how to interact with the OpenAI GPT-4o-mini model through the OpenAI API.
+
+Resumes are uploaded, broken into smaller chunks using LangChain, and then converted into embeddings. These embeddings are sent to OpenAI to handle your queries in context.
+
+The chatbot will help you search for skills, candidates, experience levels, or even find the best match for a job based on the resumes you provide.
 
 
 ### Tech Stack
