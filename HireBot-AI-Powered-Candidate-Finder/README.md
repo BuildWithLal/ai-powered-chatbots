@@ -1,6 +1,6 @@
-### DineBot: AI-Powered Restaurant Assistant
+### HireBot: AI-Powered Resume Assistant
 
-DineBot is a sample chatbot built using Chainlit and OpenAI that simulates a restaurant assistant capable of helping users with menu browsing, item pricing, and placing orders. The chatbot provides a seamless and conversational interface to explore restaurant offerings and choose between cash or delivery options for their order.
+HireBot is a sample chatbot built using Chainlit, LangChain, Pinecone, OpenAI and Embeddings that helps recruiters and tech lead to query resumes based on the uploaded resumes.
 
 <br/>
 
@@ -10,16 +10,13 @@ DineBot is a sample chatbot built using Chainlit and OpenAI that simulates a res
 <br/>
 
 #### Key Features:
-* Menu Browsing: Users can ask for available dishes, categories, and item details.
-* Price Lookup: Quick and easy access to pricing for specific menu items.
-* Order Assistance: Place an order for delivery or cash payment directly via the chatbot.
-* DineBot demonstrates how Chainlit and OpenAI can be leveraged to create conversational applications for the restaurant industry, offering a practical use case of AI in customer service.
+* Upload PDF Resumes: User can upload up to 5 resumes in a single chat.
+* Ask Questions: User can ask questions based on uploaded resumes to find the best candidate for a job.
+* HireBot demonstrates how Chainlit, LangChain, Pinecone, OpenAI and Embeddings  can be leveraged to create conversational applications for the recruiters and tech leads.
 
 * It covers interacting with OpenAI `GPT-4o-mini` model using OpenAI API.
-* The OpenAI system is trained with some sample restuarants including its menu and prices.
-* This Chatbot will take order from customers by helping them choosing a restuarant and menu items along with prices.
-* It will confirm order mode whether its a Delivery or Self-Pick order and COD or Pay-via-Card.
-* It will ask for Delivery address also in case of COD.
+* The resumes are uploaded, split and chunked using LangChain, created embeddings and passed to OpenAI for contextual queries.
+* The ChatBot will answer any query based on the uploaded resumes to find out a skill, a candidate, experience levels or a best fit based on job
 * Support Google and GitHub Login
 
 
@@ -27,6 +24,8 @@ DineBot is a sample chatbot built using Chainlit and OpenAI that simulates a res
 
 * Python 3.11
 * Chainlit
+* LangChain
+* Pinecone
 * OpenAI API
 * Docker
 
