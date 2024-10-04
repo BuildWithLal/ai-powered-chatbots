@@ -14,7 +14,7 @@
         },
         "molecules": {
             "newChatButton": {
-                "newChat": "New Chat"
+                "newChat": "New Order"
             },
             "tasklist": {
                 "TaskList": {
@@ -28,7 +28,7 @@
                 "removeAttachment": "Remove attachment"
             },
             "newChatDialog": {
-                "createNewChat": "Create new chat?",
+                "createNewChat": "Place new order?",
                 "clearChat": "This will clear the current messages and start a new chat.",
                 "cancel": "Cancel",
                 "confirm": "Confirm"
@@ -45,7 +45,7 @@
             },
             "auth": {
                 "authLogin": {
-                    "title": "Login to access the app.",
+                    "title": "Login to order your favorite meal.",
                     "form": {
                         "email": "Email address",
                         "password": "Password",

@@ -32,7 +32,7 @@ auto_tag_thread = true
 [features.spontaneous_file_upload]
     enabled = true
     accept = ["*/*"]
-    max_files = 20
+    max_files = 5
     max_size_mb = 500
 
 [features.audio]
@@ -51,10 +51,10 @@ auto_tag_thread = true
 
 [UI]
 # Name of the assistant.
-name = "Restaurant Chatbot"
+name = "Hire Bot"
 
 # Description of the assistant. This is used for HTML tags.
-# description = ""
+description = "Hire is a sample chatbot built using Chainlit, OpenAI and Pinecone that helps recruiters and technical leads to query about candidate resumes."
 
 # Large size content are by default collapsed for a cleaner ui
 default_collapse_content = true
@@ -63,11 +63,11 @@ default_collapse_content = true
 hide_cot = false
 
 # Link to your github repo. This will add a github button in the UI's header.
-# github = ""
+github = "https://github.com/BuildWithLal/ai-powered-chatbots/tree/master/HireBot-AI-Powered-Candidate-Finder"
 
 # Specify a CSS file that can be used to customize the user interface.
 # The CSS file can be served from the public directory or via an external link.
-# custom_css = "/public/test.css"
+custom_css = "/public/css/hirebot.css"
 
 # Specify a Javascript file that can be used to customize the user interface.
 # The Javascript file can be served from the public directory.
@@ -85,7 +85,7 @@ hide_cot = false
 # custom_build = "./public/build"
 
 [UI.theme]
-    default = "light"
+    default = "light" # dark
     #layout = "wide"
     #font_family = "Inter, sans-serif"
 # Override default MUI light theme. (Check theme.ts)
