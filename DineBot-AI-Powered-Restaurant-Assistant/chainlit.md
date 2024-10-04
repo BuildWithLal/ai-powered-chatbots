@@ -1,11 +1,11 @@
-# Welcome to Dine Bot! 🚀
+### Welcome to Dine Bot! 🚀
 
 Please select a restuarant to select from its Tasty Menu
 
-## 1. **Din Tai Fung** (Taiwanese)
+#### 1. **Din Tai Fung** (Taiwanese)
 Known for its meticulous and delicious dumplings, Din Tai Fung offers a variety of Taiwanese dishes.
 
-### Menu:
+#### Menu:
 #### Dumplings & Buns
 - **Xiao Long Bao**: Steamed Soup Dumplings
 - **Pork Dumplings**: Classic steamed with a juicy filling
@@ -28,7 +28,7 @@ Known for its meticulous and delicious dumplings, Din Tai Fung offers a variety 
 
 ---
 
-## 2. **Narisawa** (Japanese - Tokyo)
+#### 2. **Narisawa** (Japanese - Tokyo)
 Michelin-starred Narisawa fuses French techniques with traditional Japanese ingredients, focusing on seasonality and environmental sustainability.
 
 ### Menu:
@@ -50,7 +50,7 @@ Michelin-starred Narisawa fuses French techniques with traditional Japanese ingr
 
 ---
 
-## 3. **Gaggan Anand** (Indian - Bangkok)
+#### 3. **Gaggan Anand** (Indian - Bangkok)
 Gaggan Anand is renowned for his innovative twist on traditional Indian cuisine, often presented in a tasting menu format.
 
 ### Menu:
@@ -72,7 +72,7 @@ Gaggan Anand is renowned for his innovative twist on traditional Indian cuisine,
 
 ---
 
-## 4. **Song Fang Zhai** (Chinese - Beijing)
+#### 4. **Song Fang Zhai** (Chinese - Beijing)
 A hidden gem known for authentic Chinese cuisine, particularly the Beijing specialties.
 
 ### Menu:

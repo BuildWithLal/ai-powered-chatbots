@@ -5,11 +5,6 @@ from src.llm import take_order
 from typing import Dict, Optional
 
 
-@cl.on_chat_start
-def on_chat_start():
-    print("A new chat session has started!")
-
-
 @cl.set_starters
 async def set_starters():
     restaurants = []
@@ -27,9 +22,11 @@ async def set_starters():
     
     return starter_restaurants
 
+
 @cl.password_auth_callback
 def auth():
     return cl.User(identifier="test")
+
 
 @cl.password_auth_callback
 def auth_callback(username: str, password: str):
@@ -51,6 +48,7 @@ def oauth_callback(provider_id: str, token: str, raw_user_data: Dict[str, str], 
 @cl.on_message
 async def main(message: cl.Message):
     await take_order(message)
+
 
 @cl.on_chat_end
 def on_chat_end():
