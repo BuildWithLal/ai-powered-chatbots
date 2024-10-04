@@ -37,10 +37,13 @@ langchain-core==0.3.8
 langchain-openai==0.2.1
 langchain-pinecone==0.2.0
 langchain-text-splitters==0.3.0
+langgraph==0.2.34
+langgraph-checkpoint==2.0.0
 langsmith==0.1.130
 Lazify==0.4.0
 literalai==0.0.604
 marshmallow==3.21.3
+msgpack==1.1.0
 multidict==6.1.0
 mypy-extensions==1.0.0
 nest-asyncio==1.6.0

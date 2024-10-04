@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Dict, Optional
 from langchain_community.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
@@ -11,10 +11,10 @@ from langchain.docstore.document import Document
 import chainlit as cl
 from chainlit.types import AskFileResponse
 
-embeddings = OpenAIEmbeddings()
-pc = PineconeVectorStore(embedding=embeddings)
+pinecone_index = "hirebot"
+embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
+pc = PineconeVectorStore(index=pinecone_index, embedding=embeddings)
 
-index_name = "hirebot"
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
 
 
@@ -26,41 +26,76 @@ welcome_message = """Welcome to the HireBot! To get started:
 """
 
 
+@cl.password_auth_callback
+def auth_callback(username: str, password: str):
+    # Fetch the user matching username from your database
+    # and compare the hashed password with the value stored in the database
+    if (username, password) == ("admin", "admin"):
+        return cl.User(identifier="admin", metadata={"role": "admin", "provider": "credentials"})
+    else:
+        return None
+    
+
+@cl.oauth_callback
+def oauth_callback(provider_id: str, token: str, raw_user_data: Dict[str, str], default_user: cl.User) -> Optional[cl.User]:
+  return default_user
+
+
 def process_file(file: AskFileResponse):
     if file.type == "application/pdf":
-        Loader = PyPDFLoader
-        loader = Loader(file.path)
+        loader = PyPDFLoader(file.path)
         documents = loader.load()
         docs = text_splitter.split_documents(documents)
         for i, doc in enumerate(docs):
             doc.metadata["source"] = f"source_{i}"
+
         return docs
 
 
-def get_docsearch(file: AskFileResponse):
-    docs = process_file(file)
+async def get_docsearch(files: List[AskFileResponse]):
+    docs = []
+    processing_messages = {}
+    for file in files:
+        msg = cl.Message(content=f"`{file.name}` processing...", disable_feedback=True)
+        await msg.send()
+        processing_messages[file.name] = msg
+        file_docs = process_file(file)
+        docs.extend(file_docs)
 
-    # Save data in the user session
-    cl.user_session.set("docs", docs)
+    pineconde_session_namespace = cl.user_session.get('pinecone_session_namespace')
+    docsearch = pc.from_documents(docs, embeddings, index_name=pinecone_index, namespace=pineconde_session_namespace)
 
-    # Create a unique namespace for the file
-    namespace = file.id
-
-    if namespace in namespaces:
-        docsearch = pc.from_existing_index(
-            index_name=index_name, embedding=embeddings, namespace=namespace
-        )
-    else:
-        docsearch = pc.from_documents(
-            docs, embeddings, index_name=index_name, namespace=namespace
-        )
-        namespaces.add(namespace)
+    for file in files:
+        processing_messages[file.name].content = f'`{file.name}` processed ✅'
+        await processing_messages[file.name].update()
 
     return docsearch
 
 
+def setup_conversation_chain(docsearch: PineconeVectorStore):
+    message_history = ChatMessageHistory()
+
+    memory = ConversationBufferMemory(
+        memory_key="chat_history",
+        output_key="answer",
+        chat_memory=message_history,
+        return_messages=True,
+    )
+
+    chain = ConversationalRetrievalChain.from_llm(
+        ChatOpenAI(model_name="gpt-4o-mini", temperature=0.5, streaming=True),
+        chain_type="stuff",
+        retriever=docsearch.as_retriever(),
+        memory=memory,
+        return_source_documents=True,
+    )
+
+    return chain
+
 @cl.on_chat_start
 async def start():
+    pinecone_session_namespace = f"{cl.user_session.get('user').identifier}-{cl.user_session.get('id')}"
+    cl.user_session.set('pinecone_session_namespace', pinecone_session_namespace)
     files = None
     while files is None:
         files = await cl.AskFileMessage(
@@ -70,35 +105,9 @@ async def start():
             max_files=5,
             timeout=180,
         ).send()
-    
-    for index, file in enumerate(files):
 
-        msg = cl.Message(content=f"`{index+1}. {file.name}` processing...", disable_feedback=True)
-        await msg.send()
-
-        # No async implementation in the Pinecone client, fallback to sync
-        docsearch = await cl.make_async(get_docsearch)(file)
-
-        message_history = ChatMessageHistory()
-
-        memory = ConversationBufferMemory(
-            memory_key="chat_history",
-            output_key="answer",
-            chat_memory=message_history,
-            return_messages=True,
-        )
-
-        chain = ConversationalRetrievalChain.from_llm(
-            ChatOpenAI(model_name="gpt-4o-mini", temperature=0.5, streaming=True),
-            chain_type="stuff",
-            retriever=docsearch.as_retriever(),
-            # memory=memory,
-            return_source_documents=True,
-        )
-
-        # Let the user know resume is processed
-        msg.content = f"`{index+1}. {file.name}` ✅"
-        await msg.send()
+    docsearch = await get_docsearch(files)
+    chain = setup_conversation_chain(docsearch)
 
     msg = cl.Message(content=f"You can now ask questions!")
     await msg.send()
@@ -106,10 +115,10 @@ async def start():
 
 
 @cl.on_message
-async def main(message: cl.Message):
+async def on_message(message: cl.Message):
     chain = cl.user_session.get("chain")  # type: ConversationalRetrievalChain
     cb = cl.AsyncLangchainCallbackHandler()
-    res = await chain.acall(message.content, callbacks=[cb])
+    res = await chain.ainvoke(message.content, callbacks=[cb])
     answer = res["answer"]
     source_documents = res["source_documents"]  # type: List[Document]
 
@@ -130,3 +139,11 @@ async def main(message: cl.Message):
             answer += "\nNo sources found"
 
     await cl.Message(content=answer, elements=text_elements).send()
+
+
+@cl.on_chat_resume
+async def on_chat_resume():
+    pineconde_session_namespace = cl.user_session.get('pinecone_session_namespace')
+    docsearch = pc.from_existing_index(pinecone_index, embeddings, namespace=pineconde_session_namespace)
+    chain = setup_conversation_chain(docsearch)
+    cl.user_session.set("chain", chain)
