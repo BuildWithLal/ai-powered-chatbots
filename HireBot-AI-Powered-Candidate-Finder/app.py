@@ -61,6 +61,7 @@ async def get_docsearch(files: List[AskFileResponse]):
     processing_messages = {}
     for file in files:
         msg = cl.Message(content=f"`{file.name}` processing...", disable_feedback=True)
+        msg.persisted = True # think reverse. This will skip it to be persisted in LiteralAI
         await msg.send()
         processing_messages[file.name] = msg
         file_docs = process_file(file)
@@ -70,7 +71,7 @@ async def get_docsearch(files: List[AskFileResponse]):
     docsearch = pc.from_documents(docs, embeddings, index_name=pinecone_index, namespace=pineconde_session_namespace)
 
     for file in files:
-        processing_messages[file.name].content = f'`{file.name}` processed ✅'
+        processing_messages[file.name].content = ""
         await processing_messages[file.name].update()
 
     return docsearch
@@ -116,7 +117,6 @@ async def setup_chat_name():
 
 @cl.on_chat_start
 async def start():
-    print(cl.context.session.thread_id)
     pinecone_session_namespace = f"{cl.user_session.get('user').identifier}-{cl.user_session.get('id')}"
     cl.user_session.set('pinecone_session_namespace', pinecone_session_namespace)
     files = None
@@ -126,15 +126,26 @@ async def start():
             accept=["application/pdf"],
             max_size_mb=5, # per file
             max_files=5,
-            timeout=180,
+            timeout=3600
         ).send()
 
     docsearch = await get_docsearch(files)
     chain = setup_conversation_chain(docsearch)
-    print('here')
+    
+    elements = []
 
-    msg = cl.Message(content=f"You can now ask questions!")
-    await msg.send()
+    for file in files:
+        elements.append(
+            cl.File(
+                name=file.name,
+                path=file.path,
+                display="inline",
+            )
+        )
+
+    await cl.Message(content="Uploaded Resumes:", elements=elements, disable_feedback=True).send()
+    await cl.Message(content=f"You can now ask questions!").send()
+
     cl.user_session.set("chain", chain)    
 
     # keep checking until thread name is reflected in LiteralAI
@@ -177,3 +188,10 @@ async def on_chat_resume():
     chain = setup_conversation_chain(docsearch)
     cl.user_session.set("chain", chain)
     await setup_chat_name()
+    # await cl.AskFileMessage(
+    #         content='Upload additional resumes',
+    #         accept=["application/pdf"],
+    #         max_size_mb=5, # per file
+    #         max_files=5,
+    #         timeout=3600,
+    #     ).send()
