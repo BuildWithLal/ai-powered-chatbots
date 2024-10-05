@@ -14,7 +14,7 @@
         },
         "molecules": {
             "newChatButton": {
-                "newChat": "New Order"
+                "newChat": "New Chat"
             },
             "tasklist": {
                 "TaskList": {
@@ -28,7 +28,7 @@
                 "removeAttachment": "Remove attachment"
             },
             "newChatDialog": {
-                "createNewChat": "Place new order?",
+                "createNewChat": "Place new chat?",
                 "clearChat": "This will clear the current messages and start a new chat.",
                 "cancel": "Cancel",
                 "confirm": "Confirm"

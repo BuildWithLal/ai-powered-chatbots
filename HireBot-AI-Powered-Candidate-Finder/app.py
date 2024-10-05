@@ -1,3 +1,4 @@
+import asyncio
 from typing import List, Dict, Optional
 from langchain_community.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
@@ -8,8 +9,11 @@ from langchain.memory import ConversationBufferMemory
 from langchain_community.chat_message_histories import ChatMessageHistory
 from langchain.docstore.document import Document
 
+from literalai import LiteralClient
+
 import chainlit as cl
 from chainlit.types import AskFileResponse
+from chainlit.input_widget import TextInput
 
 pinecone_index = "hirebot"
 embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
@@ -17,8 +21,8 @@ pc = PineconeVectorStore(index=pinecone_index, embedding=embeddings)
 
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
 
+literalAI = LiteralClient()
 
-namespaces = set()
 
 welcome_message = """Welcome to the HireBot! To get started:
 1. Upload PDF resumes
@@ -92,8 +96,27 @@ def setup_conversation_chain(docsearch: PineconeVectorStore):
 
     return chain
 
+
+@cl.on_settings_update
+async def on_settings_update(settings):
+    initial_chat_name = literalAI.api.get_thread(id=cl.context.session.thread_id).name
+    chat_name = settings['chat_name'] or initial_chat_name
+    literalAI.api.update_thread(id=cl.context.session.thread_id, name=chat_name)
+
+
+async def setup_chat_name():
+    current_chat = literalAI.api.get_thread(id=cl.context.session.thread_id)
+    initial_chat_name = current_chat.name if current_chat else ""
+    await cl.ChatSettings(
+        [
+            TextInput(id="chat_name", label="Chat Name", initial=initial_chat_name, description='Note: The Chat name will update and reflect in the UI once the page is refreshed.'),
+        ]
+    ).send()
+
+
 @cl.on_chat_start
 async def start():
+    print(cl.context.session.thread_id)
     pinecone_session_namespace = f"{cl.user_session.get('user').identifier}-{cl.user_session.get('id')}"
     cl.user_session.set('pinecone_session_namespace', pinecone_session_namespace)
     files = None
@@ -108,10 +131,16 @@ async def start():
 
     docsearch = await get_docsearch(files)
     chain = setup_conversation_chain(docsearch)
+    print('here')
 
     msg = cl.Message(content=f"You can now ask questions!")
     await msg.send()
-    cl.user_session.set("chain", chain)
+    cl.user_session.set("chain", chain)    
+
+    # keep checking until thread name is reflected in LiteralAI
+    while not literalAI.api.get_thread(id=cl.context.session.thread_id):
+        await asyncio.sleep(2)
+    await setup_chat_name()
 
 
 @cl.on_message
@@ -147,3 +176,4 @@ async def on_chat_resume():
     docsearch = pc.from_existing_index(pinecone_index, embeddings, namespace=pineconde_session_namespace)
     chain = setup_conversation_chain(docsearch)
     cl.user_session.set("chain", chain)
+    await setup_chat_name()
