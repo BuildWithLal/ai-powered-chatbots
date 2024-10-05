@@ -12,6 +12,7 @@ This repository features multiple demo chatbots, each designed to handle a speci
 - **OpenAI Models**: The bots use OpenAI's GPT models to process natural language queries and respond in a human-like manner.
 - **LangChain**: LangChain is used for documents loading, splitting and embedding into Pinecone
 - **Pinecone**: Pinecone is used to keep embedded documents and used later as a context
+- **LiteralAI**: For observability and persistent messages/threads
 - **Expandable**: The repository will continue to grow with additional AI bots that demonstrate practical applications of conversational AI in various domains.
   
 
@@ -21,6 +22,7 @@ This repository features multiple demo chatbots, each designed to handle a speci
 - OpenAI
 - LangChain
 - Pinecone
+- LiteralAI
 - Docker
 
 ### Running a Chatbot

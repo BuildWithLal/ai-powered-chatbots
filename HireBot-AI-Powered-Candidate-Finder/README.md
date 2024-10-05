@@ -31,6 +31,7 @@ The chatbot will help you search for skills, candidates, experience levels, or e
 * LangChain
 * Pinecone
 * OpenAI
+* LiteralAI
 * Docker
 
 
