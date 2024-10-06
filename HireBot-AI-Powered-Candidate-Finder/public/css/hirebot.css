@@ -31,6 +31,10 @@ button.css-1sdo883{
     flex-direction: column !important;
 }
 
-.css-1mzerio a.css-1cwc2h9{
-    margin: 20px;
+.css-1mzerio > div{
+    margin: 10px !important;
+}
+
+.css-1i1hm8o{
+    width: auto !important;
 }
