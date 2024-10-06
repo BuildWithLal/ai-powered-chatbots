@@ -16,8 +16,8 @@ from chainlit.types import AskFileResponse
 from chainlit.input_widget import TextInput
 
 pinecone_index = "hirebot"
-embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
-pc = PineconeVectorStore(index=pinecone_index, embedding=embeddings)
+embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
+pc = PineconeVectorStore(index_name=pinecone_index, embedding=embeddings)
 
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
 
@@ -46,7 +46,12 @@ def oauth_callback(provider_id: str, token: str, raw_user_data: Dict[str, str], 
 
 
 def process_file(file: AskFileResponse):
-    if file.type == "application/pdf":
+    if any(
+        [
+            hasattr(file, 'type') and file.type == "application/pdf",
+            hasattr(file, 'mime') and file.mime == "application/pdf"
+        ]
+    ):
         loader = PyPDFLoader(file.path)
         documents = loader.load()
         docs = text_splitter.split_documents(documents)
@@ -56,7 +61,7 @@ def process_file(file: AskFileResponse):
         return docs
 
 
-async def get_docsearch(files: List[AskFileResponse]):
+async def get_docsearch(files: List[AskFileResponse], append_new_docs=False):
     docs = []
     processing_messages = {}
     for file in files:
@@ -68,7 +73,12 @@ async def get_docsearch(files: List[AskFileResponse]):
         docs.extend(file_docs)
 
     pineconde_session_namespace = cl.user_session.get('pinecone_session_namespace')
-    docsearch = pc.from_documents(docs, embeddings, index_name=pinecone_index, namespace=pineconde_session_namespace)
+    if append_new_docs:
+        texts = [doc.page_content for doc in docs]
+        docsearch = pc.add_texts(texts, namespace=pineconde_session_namespace)
+        docsearch = pc.from_existing_index(pinecone_index, embeddings, namespace=pineconde_session_namespace)
+    else:
+        docsearch = pc.from_documents(docs, embeddings, index_name=pinecone_index, namespace=pineconde_session_namespace)
 
     for file in files:
         processing_messages[file.name].content = ""
@@ -132,30 +142,44 @@ async def start():
     docsearch = await get_docsearch(files)
     chain = setup_conversation_chain(docsearch)
     
-    elements = []
-
+    await cl.Message(content=f"Uploaded Resumes!", disable_feedback=True).send()
+    # Reminder: The name of the pdf must be in the content of the message
     for file in files:
-        elements.append(
-            cl.File(
-                name=file.name,
-                path=file.path,
-                display="inline",
-            )
-        )
-
-    await cl.Message(content="Uploaded Resumes:", elements=elements, disable_feedback=True).send()
+        await cl.Message(
+                        content=f"{file.name}",
+                        disable_feedback=True,
+                        elements=[cl.Pdf(name=file.name, display="side", path=file.path, size='large')]
+                        ).send()
+    
     await cl.Message(content=f"You can now ask questions!").send()
-
-    cl.user_session.set("chain", chain)    
+    cl.user_session.set("chain", chain)
 
     # keep checking until thread name is reflected in LiteralAI
     while not literalAI.api.get_thread(id=cl.context.session.thread_id):
         await asyncio.sleep(2)
-    await setup_chat_name()
+    await setup_chat_name()   
 
 
 @cl.on_message
 async def on_message(message: cl.Message):
+    files = message.elements
+    if files:
+        docsearch = await get_docsearch(files, append_new_docs=True)
+        chain = setup_conversation_chain(docsearch)
+        
+        await cl.Message(content=f"Uploaded Resumes!", disable_feedback=True).send()
+        # Reminder: The name of the pdf must be in the content of the message
+        for file in files:
+            await cl.Message(
+                            content=f"{file.name}",
+                            disable_feedback=True,
+                            elements=[cl.Pdf(name=file.name, display="side", path=file.path, size='large')]
+                            ).send()
+        
+        await cl.Message(content=f"You can now ask questions!").send()
+        cl.user_session.set("chain", chain)
+        return
+
     chain = cl.user_session.get("chain")  # type: ConversationalRetrievalChain
     cb = cl.AsyncLangchainCallbackHandler()
     res = await chain.ainvoke(message.content, callbacks=[cb])
@@ -188,3 +212,4 @@ async def on_chat_resume():
     chain = setup_conversation_chain(docsearch)
     cl.user_session.set("chain", chain)
     await setup_chat_name()
+
