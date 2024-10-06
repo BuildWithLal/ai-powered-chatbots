@@ -45,7 +45,7 @@
             },
             "auth": {
                 "authLogin": {
-                    "title": "Login to order your favorite meal.",
+                    "title": "Login to process your resumes.",
                     "form": {
                         "email": "Email address",
                         "password": "Password",
