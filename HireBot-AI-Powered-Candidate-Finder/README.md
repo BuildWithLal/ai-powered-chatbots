@@ -4,7 +4,12 @@ HireBot is a sample chatbot built using Chainlit, LangChain, Pinecone, OpenAI an
 
 <br/>
 
-![image](https://github.com/user-attachments/assets/681f790e-68fe-4e5b-bd60-d10143b4de25)
+![hirebot-final-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/fef47940-29ed-4123-888e-ba2abe5b7087)
+
+<br/>
+
+![hirebot-final-ezgif com-video-to-gif-converter (1)](https://github.com/user-attachments/assets/4c64db51-f0cd-4b9f-b06b-a6384e0a5cbf)
+
 
 
 <br/>
