@@ -188,17 +188,3 @@ async def on_chat_resume():
     chain = setup_conversation_chain(docsearch)
     cl.user_session.set("chain", chain)
     await setup_chat_name()
-    # await cl.AskFileMessage(
-    #         content='Upload additional resumes',
-    #         accept=["application/pdf"],
-    #         max_size_mb=5, # per file
-    #         max_files=5,
-    #         timeout=3600,
-    #     ).send()
-
-
-# Could you provide me with a list of candidates who have extensive experience in Python?
-# Have any of these candidates also worked with React?
-# Which of these candidates would be a good fit for a full-stack Python/React role?
-# Is this candidate a good fit for a senior full-stack Python/React role?
-# Could you please provide a list of the top 5 skills for each of the shortlisted candidates?
