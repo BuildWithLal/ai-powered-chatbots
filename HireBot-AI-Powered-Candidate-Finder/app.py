@@ -55,8 +55,9 @@ def process_file(file: AskFileResponse):
         loader = PyPDFLoader(file.path)
         documents = loader.load()
         docs = text_splitter.split_documents(documents)
-        for i, doc in enumerate(docs):
-            doc.metadata["source"] = f"source_{i}"
+        for doc in docs:
+            doc.metadata["source"] = f"{file.name}"
+            doc.metadata["source_path"] = f"{file.path}"
 
         return docs
 
@@ -73,9 +74,11 @@ async def get_docsearch(files: List[AskFileResponse], append_new_docs=False):
         docs.extend(file_docs)
 
     pineconde_session_namespace = cl.user_session.get('pinecone_session_namespace')
+    print(pineconde_session_namespace)
     if append_new_docs:
         texts = [doc.page_content for doc in docs]
-        docsearch = pc.add_texts(texts, namespace=pineconde_session_namespace)
+        metadatas = [doc.metadata for doc in docs]
+        docsearch = pc.add_texts(texts, metadatas=metadatas, namespace=pineconde_session_namespace)
         docsearch = pc.from_existing_index(pinecone_index, embeddings, namespace=pineconde_session_namespace)
     else:
         docsearch = pc.from_documents(docs, embeddings, index_name=pinecone_index, namespace=pineconde_session_namespace)
@@ -96,11 +99,13 @@ def setup_conversation_chain(docsearch: PineconeVectorStore):
         chat_memory=message_history,
         return_messages=True,
     )
+    llm = ChatOpenAI(model_name="gpt-4o-mini", temperature=0.5, streaming=True)
+    retriever = docsearch.as_retriever(search_kwargs={'k': 7})
 
     chain = ConversationalRetrievalChain.from_llm(
-        ChatOpenAI(model_name="gpt-4o-mini", temperature=0.5, streaming=True),
+        llm,
         chain_type="stuff",
-        retriever=docsearch.as_retriever(),
+        retriever=retriever,
         memory=memory,
         return_source_documents=True,
     )
@@ -186,23 +191,18 @@ async def on_message(message: cl.Message):
     answer = res["answer"]
     source_documents = res["source_documents"]  # type: List[Document]
 
-    text_elements = []  # type: List[cl.Text]
+    await cl.Message(content=answer).send()
 
     if source_documents:
-        for source_idx, source_doc in enumerate(source_documents):
-            source_name = f"source_{source_idx}"
-            # Create the text element referenced in the message
-            text_elements.append(
-                cl.Text(content=source_doc.page_content, name=source_name)
-            )
-        source_names = [text_el.name for text_el in text_elements]
+        sources = set((source_doc.metadata['source_path'], source_doc.metadata['source']) for source_doc in source_documents)
+        await cl.Message(content='Sources:', disable_feedback=True).send()
+        for source in sources:
+            await cl.Message(
+                        content=source[1], # resume name
+                        disable_feedback=True,
+                        elements=[cl.Pdf(name=source[1], display="side", path=source[0], size='large')]
+                        ).send()
 
-        if source_names:
-            answer += f"\nSources: {', '.join(source_names)}"
-        else:
-            answer += "\nNo sources found"
-
-    await cl.Message(content=answer, elements=text_elements).send()
 
 
 @cl.on_chat_resume
