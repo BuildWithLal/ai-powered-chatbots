@@ -53,3 +53,10 @@ password: admin
 ```
 
 visit http://localhost:8000 and Enjoy your MEAL!
+
+
+### Queries
+1. Could you provide me with a list of candidates who have extensive experience in Python?
+2. Have any of these candidates also worked with React?
+3. Which of these candidates would be a good fit for a full-stack Python/React role?
+5. Could you please provide a list of the top 5 skills for each of the shortlisted candidates?
