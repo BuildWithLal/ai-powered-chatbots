@@ -21,6 +21,7 @@ HireBot is a sample chatbot built using Chainlit, LangChain, Pinecone, OpenAI an
 * **Authentication**: Supports login with Google and GitHub.
 * **Resume Existing Chat/Thread**
 * **Rename Chat/Thread**
+* **Preview PDF Resumes**: Preview resumes inside chat
 
 HireBot shows how to use tools like Chainlit, LangChain, Pinecone, OpenAI, and Embeddings to build chat applications for recruiters and hiring managers.
 
