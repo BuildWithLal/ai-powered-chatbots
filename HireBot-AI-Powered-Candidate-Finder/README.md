@@ -51,7 +51,7 @@ user: admin
 password: admin
 ```
 
-visit http://localhost:8000 and Enjoy your MEAL!
+visit http://localhost:8000 and Enjoy your recruiting!
 
 
 ### Queries
