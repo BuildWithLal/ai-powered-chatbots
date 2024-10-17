@@ -1,0 +1,17 @@
+version: "3.8"
+services:
+  medicalbot:
+    container_name: medicalbot
+    image: medicalbot
+    build: .
+    volumes:
+      - ./:/app
+    ports:
+      - "${CHAINLIT_PORT}:${CHAINLIT_PORT}"
+    healthcheck:
+      test: curl --fail http://localhost:${CHAINLIT_PORT}/login || exit 1
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    env_file:
+      - .env
