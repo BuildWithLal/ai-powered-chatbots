@@ -45,7 +45,7 @@
             },
             "auth": {
                 "authLogin": {
-                    "title": "Login to process your resumes.",
+                    "title": "Login to process your Medical Reports.",
                     "form": {
                         "email": "Email address",
                         "password": "Password",
