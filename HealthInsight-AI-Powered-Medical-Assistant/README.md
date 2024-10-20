@@ -18,7 +18,7 @@ The **Medical Bot** operates within the healthcare domain, focusing on assisting
 - **Pinecone**: This is the vector database used to store the embeddings of medical documents. When a query is made, Pinecone helps by searching through the embeddings for the most relevant sections of the documents. The embeddings are generated from the medical reports and questions using Hugging Face’s pre-trained models. Pinecone makes the search process efficient by focusing on the most contextually relevant parts of documents.
 - **OpenAI API**: While the focus is on Hugging Face models for medical domain specificity, OpenAI’s GPT models could also be used to handle more general medical queries or tasks where Hugging Face models don’t fit. OpenAI’s powerful language models can complement the bot by providing conversational responses to broader queries.
 - **LiteralAI**
-- **Docker**: Used for containerization, Docker simplifies the deployment of the bot across different environments, making it easier to run the chatbot locally or on cloud infrastructure.
+- **Docker**
 
 
 ### Workflow
