@@ -12,13 +12,13 @@ The **Medical Bot** operates within the healthcare domain, focusing on assisting
 
 ### Tech Stack
 
-- **Chainlit**: The frontend interface for the chatbot where users can interact. Chainlit handles the conversation logic, displaying responses and managing interactions like file uploads (medical reports) and user questions. It is used to orchestrate the flow of chat-based interactions in a streamlined manner.
-- **Hugging Face Transformers**: The bot uses pre-trained models from Hugging Face, specifically focused on the healthcare and medical domains.
-- **LangChain**: Used for document splitting and managing larger texts (e.g., medical reports or journal articles). LangChain breaks down large medical documents into smaller chunks and processes them, making it easier to handle and retrieve information for contextual queries.
-- **Pinecone**: This is the vector database used to store the embeddings of medical documents. When a query is made, Pinecone helps by searching through the embeddings for the most relevant sections of the documents. The embeddings are generated from the medical reports and questions using Hugging Face’s pre-trained models. Pinecone makes the search process efficient by focusing on the most contextually relevant parts of documents.
-- **OpenAI API**: While the focus is on Hugging Face models for medical domain specificity, OpenAI’s GPT models could also be used to handle more general medical queries or tasks where Hugging Face models don’t fit. OpenAI’s powerful language models can complement the bot by providing conversational responses to broader queries.
-- **LiteralAI**
-- **Docker**
+* Python 3.11
+* Chainlit
+* Hugging Face Transformers
+* LangChain
+* Pinecone
+* LiteralAI
+* Docker
 
 
 ### Workflow
