@@ -5,6 +5,7 @@ This repository features multiple demo chatbots, each designed to handle a speci
 ### Bots Included
 1. **DineBot**: An AI-powered restaurant assistant to help users browse menus, check prices, and place orders.
 2. **HireBot**: A resume-querying assistant that helps tech leads find matching candidates by asking questions about resumes.
+3. **HealthInsightBot**: operates within the healthcare domain, focusing on assisting users in understanding medical reports, conditions, or general healthcare inquiries.
 3. _(Add more bots here as we build them)_
 
 ### Features
@@ -12,6 +13,7 @@ This repository features multiple demo chatbots, each designed to handle a speci
 - **OpenAI Models**: The bots use OpenAI's GPT models to process natural language queries and respond in a human-like manner.
 - **LangChain**: LangChain is used for documents loading, splitting and embedding into Pinecone
 - **Pinecone**: Pinecone is used to keep embedded documents and used later as a context
+- **HuggingFace**: For some bot, pre-trained models are integrated from HuggingFace in a specific domain
 - **LiteralAI**: For observability and persistent messages/threads
 - **Expandable**: The repository will continue to grow with additional AI bots that demonstrate practical applications of conversational AI in various domains.
   
@@ -22,6 +24,7 @@ This repository features multiple demo chatbots, each designed to handle a speci
 - OpenAI
 - LangChain
 - Pinecone
+- HuggingFace
 - LiteralAI
 - Docker
 
