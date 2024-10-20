@@ -2,7 +2,7 @@
 
 The **Medical Bot** operates within the healthcare domain, focusing on assisting users in understanding medical reports, conditions, or general healthcare inquiries. This bot uses domain-specific AI models to handle medical terminology, interpret clinical documents, and provide informed responses based on pre-trained medical language models. 
 
-This bot is not intended to replace medical professionals but to provide informative insights from reliable data sources and pre-trained medical models.
+*This bot is not intended to replace medical professionals but to provide informative insights from reliable data sources and pre-trained medical models.*
 
 ### Key Features
 - **Medical Report Upload & Analysis:** Users can upload their medical reports (e.g., lab results, prescriptions, discharge summaries) in formats like PDFs or images. The bot will analyze these reports using AI to explain complex medical terms and suggest potential next steps or clarify results.
