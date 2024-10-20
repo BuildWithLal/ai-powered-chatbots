@@ -1,95 +1,41 @@
-### Welcome to Dine Bot! 🚀
+## HealthInsight - AI Powered Medical Assistant
 
-Please select a restuarant to select from its Tasty Menu
+The **Medical Bot** operates within the healthcare domain, focusing on assisting users in understanding medical reports, conditions, or general healthcare inquiries. This bot uses domain-specific AI models to handle medical terminology, interpret clinical documents, and provide informed responses based on pre-trained medical language models. 
 
-#### 1. **Din Tai Fung** (Taiwanese)
-Known for its meticulous and delicious dumplings, Din Tai Fung offers a variety of Taiwanese dishes.
+*This bot is not intended to replace medical professionals but to provide informative insights from reliable data sources and pre-trained medical models.*
 
-#### Menu:
-#### Dumplings & Buns
-- **Xiao Long Bao**: Steamed Soup Dumplings
-- **Pork Dumplings**: Classic steamed with a juicy filling
-- **Vegetable & Mushroom Dumplings**: A vegetarian option
+### Key Features
+- **Medical Report Upload & Analysis:** Users can upload their medical reports (e.g., lab results, prescriptions, discharge summaries) in formats like PDFs or images. The bot will analyze these reports using AI to explain complex medical terms and suggest potential next steps or clarify results.
+- **Medical Queries:** Answering questions about diseases, conditions, symptoms, medications, or treatments using AI models trained in the healthcare domain.
+- **Search Through Medical Data:** The bot can search through uploaded medical documents or a database of medical literature to find relevant information. This allows healthcare providers or patients to gain insights from medical documents without going through the entire document themselves.
+- **Pre-trained Model Assistance:** By leveraging Hugging Face’s pre-trained models in the medical field (such as BioBERT, ClinicalBERT, or SciBERT), the bot can assist with scientific literature, drug interactions, and treatment plans.
 
-#### Appetizers
-- **Cucumber Salad**: Refreshing with a garlic-vinegar dressing
-- **Seaweed & Beancurd in Vinegar Dressing**: Light and tangy
-- **Sichuan Pickled Vegetables**: Spicy and sour combination
+### Tech Stack
 
-#### Noodles & Wontons
-- **Spicy Shrimp & Pork Wontons**: Tossed in a spicy sauce
-- **Braised Beef Noodle Soup**: Rich and hearty
-- **Vegetable & Pork Wontons**: Soft and savory
+* Python 3.11
+* Chainlit
+* Hugging Face Transformers
+* LangChain
+* Pinecone
+* LiteralAI
+* Docker
 
-#### Rice & Soups
-- **Fried Rice with Shrimp & Egg**: Lightly seasoned
-- **Pork Chop Fried Rice**: Marinated and fried pork chop served over rice
-- **Hot & Sour Soup**: Classic with tofu and bamboo shoots
 
----
+### Workflow
 
-#### 2. **Narisawa** (Japanese - Tokyo)
-Michelin-starred Narisawa fuses French techniques with traditional Japanese ingredients, focusing on seasonality and environmental sustainability.
+1. **User Interaction:** Users initiate a conversation with the bot via Chainlit. They can either upload medical documents (PDFs or images) or ask direct questions about medical conditions.
+   
+2. **Document Splitting & Processing (LangChain):** If a medical report is uploaded, LangChain breaks it down into smaller sections for easier analysis. These smaller sections are then processed for embeddings.
+   
+3. **Model Inference (Hugging Face Transformers):** The chatbot leverages the pre-trained medical models from Hugging Face to interpret the uploaded data or answer medical queries. The embeddings are generated for the document chunks, and relevant parts of the documents are identified.
 
-### Menu:
-#### Seasonal Starters
-- **Japanese Seasonal Vegetables**: Variety dictated by local farms
-- **Firefly Squid**: Served with seasonal ingredients
+4. **Searching for Relevant Information (Pinecone):** If the user asks a question related to the uploaded documents, the embeddings are used to find the most relevant sections in Pinecone’s vector database. This allows the bot to provide context-specific answers based on the user's query.
 
-#### Sashimi & Sushi
-- **Toro (Fatty Tuna) Sashimi**: Fresh and delicate
-- **Uni (Sea Urchin) Sushi**: Creamy and luxurious
+5. **Response Generation:** The bot generates a response, either by explaining medical terminology, summarizing sections of a medical report, or answering questions related to the user's input.
 
-#### Main Course
-- **Charcoal Grilled Wagyu Beef**: Perfectly tender and smoky
-- **Seasonal Fish**: Prepared with finesse
 
-#### Desserts
-- **Matcha Green Tea Cake**: Light and fluffy
-- **Yuzu Sorbet**: Refreshing and tart
+### Potential Enhancements
 
----
-
-#### 3. **Gaggan Anand** (Indian - Bangkok)
-Gaggan Anand is renowned for his innovative twist on traditional Indian cuisine, often presented in a tasting menu format.
-
-### Menu:
-#### Small Bites
-- **Yoghurt Explosion**: Molecular gastronomy at its best
-- **Edible Plastic Spicy Salad**: Playful and flavorful
-
-#### Curries
-- **Seafood Moilee**: Coconut-based curry with assorted seafood
-- **Lamb Vindaloo**: Spicy and tangy lamb curry
-
-#### Tandoor
-- **Tandoori Chicken**: Marinated in yogurt and spices
-- **Paneer Tikka**: Grilled cottage cheese with spices
-
-#### Desserts
-- **Mango Lassi Sorbet**: Creamy yet light
-- **Chocolate Chili Bombe**: A chocolate dessert with a spicy kick
-
----
-
-#### 4. **Song Fang Zhai** (Chinese - Beijing)
-A hidden gem known for authentic Chinese cuisine, particularly the Beijing specialties.
-
-### Menu:
-#### Starters
-- **Peking Duck**: Thinly sliced with crispy skin
-- **Spring Rolls**: Crispy and packed with vegetables
-
-#### Main Course
-- **Kung Pao Chicken**: Spicy with peanuts and dried chilies
-- **Mapo Tofu**: Silky tofu in a spicy Sichuan sauce
-
-#### Noodles & Rice
-- **Dan Dan Noodles**: With a spicy minced pork sauce
-- **Yangzhou Fried Rice**: Mixed with diced ham, shrimp, and vegetables
-
-#### Soups
-- **Hot and Sour Soup**: Classic with a spicy tang
-- **Wonton Soup**: Clear broth with handmade wontons
-
----
+- **Fine-tuning for Specific Use Cases:** By further fine-tuning the models on more specific medical datasets (e.g., cardiology, oncology), the chatbot can become more specialized for certain medical fields.
+- **Voice Interaction Integration (Whisper + ElevenLabs):** To make the bot more accessible, voice interaction could be integrated using Whisper for speech-to-text and ElevenLabs for text-to-speech, enabling voice queries and responses.
+- **Multi-language Support:** For global applications, additional language support could be added using models trained on multilingual medical corpora.
