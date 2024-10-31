@@ -1,19 +1,13 @@
+import os
 import asyncio
 from typing import List, Dict, Optional
-from langchain_huggingface import HuggingFaceEmbeddings
-from langchain.chains.question_answering import load_qa_chain
-from langchain.prompts import PromptTemplate
+
 from transformers import pipeline
+from literalai import LiteralClient
+from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_openai import OpenAIEmbeddings, ChatOpenAI
 from langchain_pinecone import PineconeVectorStore
-from langchain.chains import ConversationalRetrievalChain
-from langchain.memory import ConversationBufferMemory
-from langchain_community.chat_message_histories import ChatMessageHistory
-from langchain.docstore.document import Document
-import PyPDF2
-from literalai import LiteralClient
 
 import chainlit as cl
 from chainlit.types import AskFileResponse
@@ -23,7 +17,7 @@ from chainlit.input_widget import TextInput
 qa_pipeline = pipeline("question-answering", model="microsoft/BiomedNLP-PubMedBERT-base-uncased-abstract")
 
 
-pinecone_index = "medicalbot"
+pinecone_index = os.getenv('PINECONE_INDEX_NAME')
 embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 pc = PineconeVectorStore(index_name=pinecone_index, embedding=embeddings)
 
@@ -155,21 +149,17 @@ async def handle_message(message: cl.Message):
     # Use the document search (Pinecone) and retrieve relevant documents
     pinecone_session_namespace = cl.user_session.get('pinecone_session_namespace')
     search_docs = pc.similarity_search(question, namespace=pinecone_session_namespace)
-    print(search_docs)
+    # print(search_docs)
+    context = " ".join([doc.page_content for doc in search_docs])
+    # print(context)
     
     # Use Hugging Face pipeline to answer the medical question based on retrieved documents
-    answer = qa_pipeline(question=question, context=search_docs[0].page_content)
-    response = answer['answer']
+    response = qa_pipeline(question=question, context=context, max_answer_len=1000)
+    print(response)
+    answer = response['answer']
+    # print(answer)
     
-    await cl.Message(content=f"Here is what I found: {response}").send()
-
-
-def extract_text_from_pdf(file_path):
-    reader = PyPDF2.PdfReader(file_path)
-    text = ""
-    for page in reader.pages:
-        text += page.extract_text()
-    return text
+    await cl.Message(content=f"Here is what I found: {answer}").send()
 
 
 async def setup_chat_name():
